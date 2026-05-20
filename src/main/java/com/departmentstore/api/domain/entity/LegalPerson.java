@@ -1,10 +1,14 @@
 package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.valueobject.CNPJ;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class LegalPerson {
 
     private final Long id;
@@ -47,57 +51,14 @@ public class LegalPerson {
             throw new IllegalArgumentException("Corporate name is required");
         }
 
-        if (shareCapital == null || shareCapital.signum() < 0) {
+        if (shareCapital.signum() < 0) {
 
             throw new IllegalArgumentException("Share capital cannot be negative");
         }
 
-        if (employeesQuant == null || employeesQuant < 0) {
+        if (employeesQuant < 0) {
             throw new IllegalArgumentException("Employees quantity cannot be negative");
         }
     }
-    public Long getId() {
-        return id;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public CNPJ getCnpj() {
-        return cnpj;
-    }
-
-    public String getCorporateName() {
-        return corporateName;
-    }
-
-    public BigDecimal getShareCapital() {
-        return shareCapital;
-    }
-
-    public Integer getEmployeesQuant() {
-        return employeesQuant;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof LegalPerson that)) {
-            return false;
-        }
-
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
 
 }

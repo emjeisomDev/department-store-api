@@ -1,8 +1,13 @@
 package com.departmentstore.api.domain.entity;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class AuditTrail {
     private final Long id;
     private final String tableName;
@@ -27,7 +32,6 @@ public class AuditTrail {
     ) {
 
         validate(tableName, recordId, createdAt);
-
         this.id = id;
         this.tableName = tableName;
         this.recordId = recordId;
@@ -55,62 +59,4 @@ public class AuditTrail {
         }
     }
 
-    public boolean isDeleted() {
-        return deletedAt != null;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public Long getRecordId() {
-        return recordId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof AuditTrail that)) {
-            return false;
-        }
-
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

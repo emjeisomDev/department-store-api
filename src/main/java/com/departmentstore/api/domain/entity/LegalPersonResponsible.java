@@ -1,10 +1,14 @@
 package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.enums.ResponsibilityType;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class LegalPersonResponsible {
     private final Long id;
     private final Long legalPersonId;
@@ -66,49 +70,5 @@ public class LegalPersonResponsible {
 
         this.endDate = endDate;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getLegalPersonId() {
-        return legalPersonId;
-    }
-
-    public Long getNaturalPersonId() {
-        return naturalPersonId;
-    }
-
-    public ResponsibilityType getResponsibilityType() {
-        return responsibilityType;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof LegalPersonResponsible that)) {
-            return false;
-        }
-
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
 
 }

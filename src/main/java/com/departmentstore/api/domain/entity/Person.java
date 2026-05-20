@@ -1,10 +1,14 @@
 package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.enums.PersonType;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class Person {
     private final Long id;
     private String name;
@@ -21,6 +25,7 @@ public class Person {
             final LocalDateTime registrationDate,
             final Long auditId)
     {
+        validate(name, personType, registrationDate, auditId);
         this.id = id;
         this.name = name;
         this.personType = personType;
@@ -30,34 +35,20 @@ public class Person {
     }
 
     private void validate(
-            final String name,
-            final PersonType personType,
-            final LocalDateTime registrationDate,
-            final Long auditId
+            final String name, final PersonType personType,
+            final LocalDateTime registrationDate, final Long auditId
     ) {
-
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Person name is required"
-            );
+            throw new IllegalArgumentException("Person name is required");
         }
-
         if (personType == null) {
-            throw new IllegalArgumentException(
-                    "Person type is required"
-            );
+            throw new IllegalArgumentException("Person type is required");
         }
-
         if (registrationDate == null) {
-            throw new IllegalArgumentException(
-                    "Registration date is required"
-            );
+            throw new IllegalArgumentException("Registration date is required");
         }
-
         if (auditId == null) {
-            throw new IllegalArgumentException(
-                    "Audit id is required"
-            );
+            throw new IllegalArgumentException("Audit id is required");
         }
     }
 
@@ -70,85 +61,26 @@ public class Person {
     }
 
     public void updateName(final String newName) {
-
-        if (deleted) {
-            throw new IllegalStateException(
-                    "Deleted person cannot be modified"
-            );
-        }
-
+        validateNotDeleted();
         if (newName == null || newName.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Name cannot be empty"
-            );
+            throw new IllegalArgumentException("Name cannot be empty");
         }
-
         this.name = newName;
     }
 
     public void markAsDeleted(final String deletedBy) {
-
-        if (deleted) {
-            throw new IllegalStateException(
-                    "Person already deleted"
-            );
-        }
-
+        validateNotDeleted();
         if (deletedBy == null || deletedBy.isBlank()) {
-            throw new IllegalArgumentException(
-                    "DeletedBy is required"
-            );
+            throw new IllegalArgumentException("DeletedBy is required");
         }
-
         this.deleted = true;
         this.deletedBy = deletedBy;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public PersonType getPersonType() {
-        return personType;
-    }
-
-    public LocalDateTime getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public Long getAuditId() {
-        return auditId;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
+    private void validateNotDeleted() {
+        if (deleted) {
+            throw new IllegalStateException("Deleted person cannot be modified");
         }
-
-        if (!(o instanceof Person person)) {
-            return false;
-        }
-
-        return Objects.equals(id, person.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
 

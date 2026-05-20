@@ -2,10 +2,14 @@ package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.enums.EmployeeRole;
 import com.departmentstore.api.domain.enums.EmployeeStatus;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class Employee {
 
     private final Long id;
@@ -88,57 +92,5 @@ public class Employee {
         }
         this.employeeRole = employeeRole;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public LocalDate getHireDate() {
-        return hireDate;
-    }
-
-    public LocalDate getTerminationDate() {
-        return terminationDate;
-    }
-
-    public String getTerminationReason() {
-        return terminationReason;
-    }
-
-    public EmployeeRole getEmployeeRole() {
-        return employeeRole;
-    }
-
-    public EmployeeStatus getStatus() {
-        return status;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof Employee employee)) {
-            return false;
-        }
-
-        return Objects.equals(id, employee.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
 
 }

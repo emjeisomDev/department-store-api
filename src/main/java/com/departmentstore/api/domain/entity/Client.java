@@ -1,24 +1,29 @@
 package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.enums.ClientRank;
+import com.departmentstore.api.domain.enums.ClientStatus;
+import lombok.*;
 
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class Client {
 
     private final Long id;
     private final Long personId;
     private final String clientCode;
     private ClientRank clientRank;
-    private String status;
+    private ClientStatus status;
 
     public Client(
             final Long id,
             final Long personId,
             final String clientCode,
             final ClientRank clientRank,
-            final String status
-    ) {
+            final ClientStatus status)
+    {
         validate(personId, clientCode, clientRank, status);
         this.id = id;
         this.personId = personId;
@@ -31,22 +36,18 @@ public class Client {
             final Long personId,
             final String clientCode,
             final ClientRank clientRank,
-            final String status
-    ) {
-
+            final ClientStatus status)
+    {
         if (personId == null) {
             throw new IllegalArgumentException("PersonId is required");
         }
-
         if (clientCode == null || clientCode.isBlank()) {
             throw new IllegalArgumentException("Client code is required");
         }
-
         if (clientRank == null) {
             throw new IllegalArgumentException("Client rank is required");
         }
-
-        if (status == null || status.isBlank()) {
+        if (status == null) {
             throw new IllegalArgumentException("Status is required");
         }
     }
@@ -59,46 +60,11 @@ public class Client {
     }
 
     public void deactivate() {
-        this.status = "INACTIVE";
+        this.status = ClientStatus.INACTIVE;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public String getClientCode() {
-        return clientCode;
-    }
-
-    public ClientRank getClientRank() {
-        return clientRank;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof Client client)) {
-            return false;
-        }
-
-        return Objects.equals(id, client.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void activate() {
+        this.status = ClientStatus.ACTIVE;
     }
 
 

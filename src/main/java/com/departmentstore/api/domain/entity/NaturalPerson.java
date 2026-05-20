@@ -2,10 +2,14 @@ package com.departmentstore.api.domain.entity;
 
 import com.departmentstore.api.domain.enums.Gender;
 import com.departmentstore.api.domain.valueobject.CPF;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class NaturalPerson {
     private final Long id;
     private final Long personId;
@@ -60,46 +64,4 @@ public class NaturalPerson {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public CPF getCpf() {
-        return cpf;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public String getMothersName() {
-        return mothersName;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof NaturalPerson that)) {
-            return false;
-        }
-
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
