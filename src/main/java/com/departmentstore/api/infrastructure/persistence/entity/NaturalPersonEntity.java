@@ -45,6 +45,7 @@ public class NaturalPersonEntity {
     @Column(name = "mothers_name", nullable = false, length = 255)
     private String mothersName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false, length = 1)
     private Gender gender;
 

@@ -42,6 +42,7 @@ public class LegalPersonResponsiblesEntity {
     )
     private NaturalPersonEntity naturalPerson;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "responsibility_type", nullable = false, length = 50)
     private ResponsibilityType responsibilityType;
 

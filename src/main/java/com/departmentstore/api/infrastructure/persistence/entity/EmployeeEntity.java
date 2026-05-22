@@ -49,9 +49,11 @@ public class EmployeeEntity {
     @Column(name = "termination_reason")
     private String terminationReason;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "employee_role", nullable = false)
     private EmployeeRole employeeRole;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private EmployeeStatus status;
 

@@ -39,9 +39,11 @@ public class ClientEntity {
     @Column(name = "client_code", nullable = false, unique = true)
     private String clientCode;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "client_rank", nullable = false)
     private ClientRank clientRank;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ClientStatus status;
 
