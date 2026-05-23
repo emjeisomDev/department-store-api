@@ -47,9 +47,6 @@ public class Person {
         if (registrationDate == null) {
             throw new IllegalArgumentException("Registration date is required");
         }
-        if (auditId == null) {
-            throw new IllegalArgumentException("Audit id is required");
-        }
     }
 
     public boolean isNaturalPerson() {
@@ -83,7 +80,13 @@ public class Person {
         }
     }
 
-
+    public void restore() {
+        if (!deleted) {
+            throw new IllegalStateException("Person is not deleted");
+        }
+        this.deleted = false;
+        this.deletedBy = null;
+    }
 
 
 }
