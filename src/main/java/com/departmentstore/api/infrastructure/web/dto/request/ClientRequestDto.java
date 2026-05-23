@@ -1,5 +1,6 @@
 package com.departmentstore.api.infrastructure.web.dto.request;
 
+import com.departmentstore.api.domain.enums.ClientRank;
 import jakarta.validation.constraints.*;
 
 public record ClientRequestDto(
@@ -9,6 +10,6 @@ public record ClientRequestDto(
         @NotBlank(message = "Client code is required")
         String clientCode,
 
-        String clientRank
+        ClientRank clientRank
 ) {
 }

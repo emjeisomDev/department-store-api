@@ -1,5 +1,6 @@
 package com.departmentstore.api.infrastructure.web.dto.request;
 
+import com.departmentstore.api.domain.enums.EmployeeRole;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,6 @@ public record EmployeeRequestDto(
         @NotNull(message = "Hire date is required")
         LocalDate hireDate,
 
-        String employeeRole
+        EmployeeRole employeeRole
 ) {
 }
