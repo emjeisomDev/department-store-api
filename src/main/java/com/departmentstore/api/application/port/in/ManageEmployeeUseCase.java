@@ -8,6 +8,7 @@ import com.departmentstore.api.domain.enums.EmployeeRole;
 import java.util.List;
 
 public interface ManageEmployeeUseCase {
+    Employee findById(Long employeeId);
     Employee hire(HireEmployeeCommand command);
     void terminate(TerminateEmployeeCommand command);
     List<Employee> findActive(int page, int size);

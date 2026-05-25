@@ -1,10 +1,13 @@
 package com.departmentstore.api.infrastructure.web.controller;
 
+import com.departmentstore.api.application.command.employee.TerminateEmployeeCommand;
 import com.departmentstore.api.application.port.in.ManageEmployeeUseCase;
 import com.departmentstore.api.application.port.in.ManagePersonUseCase;
 import com.departmentstore.api.domain.entity.Employee;
 import com.departmentstore.api.domain.entity.Person;
 import com.departmentstore.api.infrastructure.web.dto.request.EmployeeRequestDto;
+import com.departmentstore.api.infrastructure.web.dto.request.TerminateEmployeeRequestDto;
+import com.departmentstore.api.infrastructure.web.dto.request.UpdateEmployeeRoleRequestDto;
 import com.departmentstore.api.infrastructure.web.dto.response.ApiResponseDto;
 import com.departmentstore.api.infrastructure.web.dto.response.EmployeeResponseDto;
 import com.departmentstore.api.infrastructure.web.mapper.EmployeeMapper;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -32,6 +36,41 @@ public class EmployeeController {
         this.mapper = mapper;
     }
 
+    @GetMapping("/{id}")
+    public ApiResponseDto<EmployeeResponseDto> findById(@PathVariable final Long id) {
+
+        Employee employee = useCase.findById(id);
+        Person person = managePersonUseCase.findById(employee.getPersonId()).orElseThrow();
+
+        return new ApiResponseDto<>(
+                true,
+                mapper.toResponseDto(employee, person),
+                "Employee found successfully",
+                LocalDateTime.now()
+        );
+    }
+
+    @GetMapping
+    public ApiResponseDto<List<EmployeeResponseDto>> findAll(
+            @RequestParam(defaultValue = "0") final int page,
+            @RequestParam(defaultValue = "10") final int size
+    ) {
+
+        List<EmployeeResponseDto> response =
+                useCase.findActive(page, size).stream().map(employee -> {
+                    Person person = managePersonUseCase.findById(employee.getPersonId()).orElseThrow();
+                    return mapper.toResponseDto(employee, person);
+                }).toList();
+
+        return new ApiResponseDto<>(
+                true,
+                response,
+                "Employees retrieved successfully",
+                LocalDateTime.now()
+        );
+    }
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<EmployeeResponseDto> hire(
@@ -47,4 +86,42 @@ public class EmployeeController {
                 LocalDateTime.now()
         );
     }
+
+    @PatchMapping("/{id}/terminate")
+    public ApiResponseDto<Void> terminate(
+            @PathVariable final Long id,
+            @Valid @RequestBody final TerminateEmployeeRequestDto request
+    ) {
+
+        useCase.terminate(
+                new TerminateEmployeeCommand(
+                        id, request.terminationDate(), request.terminationReason()
+                ));
+
+        return new ApiResponseDto<>(
+                true,
+                null,
+                "Employee terminated successfully",
+                LocalDateTime.now()
+        );
+    }
+
+    @PatchMapping("/{id}/role")
+    public ApiResponseDto<Void> updateRole(
+            @PathVariable final Long id,
+            @Valid @RequestBody final UpdateEmployeeRoleRequestDto request) {
+
+        useCase.updateRole(id, request.role());
+
+        return new ApiResponseDto<>(
+                true,
+                null,
+                "Employee role updated successfully",
+                LocalDateTime.now()
+        );
+    }
+
+
+
+
 }

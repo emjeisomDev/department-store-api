@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/legal-persons/{legalPersonId}/responsibles")
@@ -19,6 +20,18 @@ public class ResponsibleController {
 
     public ResponsibleController(final ManageResponsibleUseCase useCase) {
         this.useCase = useCase;
+    }
+
+    @GetMapping
+    public ApiResponseDto<List<LegalPersonResponsible>> listResponsibles(
+            @PathVariable final Long legalPersonId) {
+
+        return new ApiResponseDto<>(
+                true,
+                useCase.listResponsibles(legalPersonId),
+                "Responsibles retrieved successfully",
+                LocalDateTime.now()
+        );
     }
 
     @PostMapping
@@ -41,6 +54,17 @@ public class ResponsibleController {
                 true,
                 responsible.getId(),
                 "Responsible added successfully",
+                LocalDateTime.now()
+        );
+    }
+
+    @DeleteMapping("/{rid}")
+    public ApiResponseDto<Void> endResponsibility(@PathVariable final Long rid) {
+        useCase.endResponsibility(rid);
+        return new ApiResponseDto<>(
+                true,
+                null,
+                "Responsibility ended successfully",
                 LocalDateTime.now()
         );
     }

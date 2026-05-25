@@ -7,6 +7,7 @@ import com.departmentstore.api.domain.enums.ClientRank;
 import java.util.List;
 
 public interface ManageClientUseCase {
+    Client findById(Long clientId);
     Client register(RegisterClientCommand command);
     void updateRank(Long clientId, ClientRank rank);
     void deactivate(Long clientId);

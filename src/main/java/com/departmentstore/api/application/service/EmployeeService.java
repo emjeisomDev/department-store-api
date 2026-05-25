@@ -28,6 +28,15 @@ public class EmployeeService implements ManageEmployeeUseCase {
     }
 
     @Override
+    public Employee findById(final Long employeeId) {
+
+        return repository.findById(employeeId).orElseThrow(() ->
+                new IllegalArgumentException(
+                        "Employee not found")
+        );
+    }
+
+    @Override
     public Employee hire(final HireEmployeeCommand command) {
         Person person = personRepository.findById(command.personId()).orElseThrow();
 

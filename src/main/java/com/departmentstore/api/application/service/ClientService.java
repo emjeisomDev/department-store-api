@@ -22,6 +22,12 @@ public class ClientService implements ManageClientUseCase {
     }
 
     @Override
+    public Client findById(final Long clientId) {
+        return repository.findById(clientId).orElseThrow(() ->
+                new IllegalArgumentException("Client not found"));
+    }
+
+    @Override
     public Client register(final RegisterClientCommand command) {
 
         Client client =
