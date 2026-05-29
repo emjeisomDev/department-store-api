@@ -4,6 +4,7 @@ import com.departmentstore.api.application.command.person.*;
 import com.departmentstore.api.application.port.in.*;
 import com.departmentstore.api.domain.entity.*;
 import com.departmentstore.api.domain.enums.PersonType;
+import com.departmentstore.api.domain.exception.DuplicateTaxIdException;
 import com.departmentstore.api.domain.exception.PersonTypeConflictException;
 import com.departmentstore.api.domain.repository.*;
 import com.departmentstore.api.domain.valueobject.*;
@@ -39,7 +40,7 @@ public class PersonService implements CreatePersonUseCase, ManagePersonUseCase {
     public NaturalPerson createNaturalPerson(final CreateNaturalPersonCommand command) {
         CPF cpf = new CPF(command.cpf());
         if (naturalPersonRepository.existsByCpf(cpf)) {
-            throw new IllegalArgumentException("CPF already exists");
+            throw new DuplicateTaxIdException(cpf.getValue());
         }
 
         Person person = new Person(
@@ -75,7 +76,7 @@ public class PersonService implements CreatePersonUseCase, ManagePersonUseCase {
     public LegalPerson createLegalPerson(final CreateLegalPersonCommand command) {
         CNPJ cnpj = new CNPJ(command.cnpj());
         if (legalPersonRepository.existsByCnpj(cnpj)) {
-            throw new IllegalArgumentException("CNPJ already exists");
+            throw new DuplicateTaxIdException(cnpj.getValue());
         }
 
         Person person = new Person(

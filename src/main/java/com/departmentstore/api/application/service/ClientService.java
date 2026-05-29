@@ -5,6 +5,7 @@ import com.departmentstore.api.application.port.in.ManageClientUseCase;
 import com.departmentstore.api.domain.entity.Client;
 import com.departmentstore.api.domain.enums.ClientRank;
 import com.departmentstore.api.domain.enums.ClientStatus;
+import com.departmentstore.api.domain.exception.ClientNotFoundException;
 import com.departmentstore.api.domain.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class ClientService implements ManageClientUseCase {
     @Override
     public Client findById(final Long clientId) {
         return repository.findById(clientId).orElseThrow(() ->
-                new IllegalArgumentException("Client not found"));
+                new ClientNotFoundException(clientId));
     }
 
     @Override

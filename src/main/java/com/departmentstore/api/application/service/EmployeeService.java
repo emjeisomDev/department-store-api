@@ -8,6 +8,9 @@ import com.departmentstore.api.domain.entity.Person;
 import com.departmentstore.api.domain.enums.EmployeeRole;
 import com.departmentstore.api.domain.enums.EmployeeStatus;
 import com.departmentstore.api.domain.enums.PersonType;
+import com.departmentstore.api.domain.exception.DuplicateRegistrationException;
+import com.departmentstore.api.domain.exception.EmployeeMustBeNaturalPersonException;
+import com.departmentstore.api.domain.exception.EmployeeNotFoundException;
 import com.departmentstore.api.domain.repository.EmployeeRepository;
 import com.departmentstore.api.domain.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -31,9 +34,7 @@ public class EmployeeService implements ManageEmployeeUseCase {
     public Employee findById(final Long employeeId) {
 
         return repository.findById(employeeId).orElseThrow(() ->
-                new IllegalArgumentException(
-                        "Employee not found")
-        );
+                new EmployeeNotFoundException(employeeId));
     }
 
     @Override
@@ -41,11 +42,11 @@ public class EmployeeService implements ManageEmployeeUseCase {
         Person person = personRepository.findById(command.personId()).orElseThrow();
 
         if (!PersonType.NATURAL_PERSON.equals(person.getPersonType())) {
-                throw new IllegalArgumentException("Only natural person can be employee");
+            throw new EmployeeMustBeNaturalPersonException();
         }
 
         if (repository.existsByRegistrationNumber(command.registrationNumber())) {
-            throw new IllegalArgumentException("Registration number already exists");
+            throw new DuplicateRegistrationException(command.registrationNumber());
         }
 
         Employee employee =
