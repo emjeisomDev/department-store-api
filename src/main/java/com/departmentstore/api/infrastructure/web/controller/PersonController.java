@@ -2,7 +2,9 @@ package com.departmentstore.api.infrastructure.web.controller;
 
 import com.departmentstore.api.application.command.person.UpdatePersonNameCommand;
 import com.departmentstore.api.application.port.in.CreatePersonUseCase;
+import com.departmentstore.api.application.port.in.GetAuditTrailUseCase;
 import com.departmentstore.api.application.port.in.ManagePersonUseCase;
+import com.departmentstore.api.domain.entity.AuditTrail;
 import com.departmentstore.api.domain.entity.LegalPerson;
 import com.departmentstore.api.domain.entity.NaturalPerson;
 import com.departmentstore.api.domain.entity.Person;
@@ -10,8 +12,10 @@ import com.departmentstore.api.infrastructure.web.dto.request.LegalPersonRequest
 import com.departmentstore.api.infrastructure.web.dto.request.NaturalPersonRequestDto;
 import com.departmentstore.api.infrastructure.web.dto.request.UpdatePersonNameRequestDto;
 import com.departmentstore.api.infrastructure.web.dto.response.ApiResponseDto;
+import com.departmentstore.api.infrastructure.web.dto.response.AuditTrailResponseDto;
 import com.departmentstore.api.infrastructure.web.dto.response.LegalPersonResponseDto;
 import com.departmentstore.api.infrastructure.web.dto.response.NaturalPersonResponseDto;
+import com.departmentstore.api.infrastructure.web.mapper.AuditTrailMapper;
 import com.departmentstore.api.infrastructure.web.mapper.PersonMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,15 +30,32 @@ public class PersonController {
     private final CreatePersonUseCase createPersonUseCase;
     private final ManagePersonUseCase managePersonUseCase;
     private final PersonMapper mapper;
+    private final GetAuditTrailUseCase auditTrailUseCase;
+    private final AuditTrailMapper auditTrailMapper;
 
     public PersonController(
             final CreatePersonUseCase createPersonUseCase,
             final ManagePersonUseCase managePersonUseCase,
-            final PersonMapper mapper
+            final PersonMapper mapper,
+            final GetAuditTrailUseCase auditTrailUseCase,
+            final AuditTrailMapper auditTrailMapper
     ) {
         this.createPersonUseCase = createPersonUseCase;
         this.managePersonUseCase = managePersonUseCase;
         this.mapper = mapper;
+        this.auditTrailUseCase = auditTrailUseCase;
+        this.auditTrailMapper = auditTrailMapper;
+    }
+
+    @GetMapping("/{id}/audit")
+    public ApiResponseDto<AuditTrailResponseDto> getAudit(@PathVariable final Long id) {
+        AuditTrail audit = auditTrailUseCase.findByPersonId(id);
+        return new ApiResponseDto<>(
+                true,
+                auditTrailMapper.toResponseDto(audit),
+                "Audit retrieved successfully",
+                LocalDateTime.now()
+        );
     }
 
     @GetMapping("/{id}")
