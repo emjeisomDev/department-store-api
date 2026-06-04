@@ -83,7 +83,7 @@ public class PersonService implements CreatePersonUseCase, ManagePersonUseCase {
                         cpf,
                         command.birthDate(),
                         command.mothersName(),
-                        null
+                        command.gender()
                 );
 
         return naturalPersonRepository.save(naturalPerson);

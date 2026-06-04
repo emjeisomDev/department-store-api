@@ -75,6 +75,8 @@ public class EmployeeRepositoryAdapter implements EmployeeRepository {
                 entity.getPerson().getId(),
                 entity.getRegistrationNumber(),
                 entity.getHireDate(),
+                entity.getTerminationDate(),
+                entity.getTerminationReason(),
                 entity.getEmployeeRole(),
                 entity.getStatus()
         );

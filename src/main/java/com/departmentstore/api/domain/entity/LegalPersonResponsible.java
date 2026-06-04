@@ -32,6 +32,30 @@ public class LegalPersonResponsible {
         this.startDate = startDate;
     }
 
+    public LegalPersonResponsible(
+            final Long id,
+            final Long legalPersonId,
+            final Long naturalPersonId,
+            final ResponsibilityType responsibilityType,
+            final LocalDate startDate,
+            final LocalDate endDate
+    ) {
+
+        validate(
+                legalPersonId,
+                naturalPersonId,
+                responsibilityType,
+                startDate
+        );
+
+        this.id = id;
+        this.legalPersonId = legalPersonId;
+        this.naturalPersonId = naturalPersonId;
+        this.responsibilityType = responsibilityType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     private void validate(
             final Long legalPersonId,
             final Long naturalPersonId,

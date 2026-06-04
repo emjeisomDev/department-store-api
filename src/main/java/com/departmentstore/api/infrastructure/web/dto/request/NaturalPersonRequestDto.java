@@ -1,5 +1,6 @@
 package com.departmentstore.api.infrastructure.web.dto.request;
 
+import com.departmentstore.api.domain.enums.Gender;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -24,6 +25,6 @@ public record NaturalPersonRequestDto(
                 regexp = "^[FMON]$",
                 message = "Gender must be F, M, O or N"
         )
-        String gender
+        Gender gender
 ) {
 }

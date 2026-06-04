@@ -55,6 +55,8 @@ public class EmployeeService implements ManageEmployeeUseCase {
                         person.getId(),
                         command.registrationNumber(),
                         command.hireDate(),
+                        null,
+                        null,
                         EmployeeRole.GENERAL,
                         EmployeeStatus.ACTIVE
                 );

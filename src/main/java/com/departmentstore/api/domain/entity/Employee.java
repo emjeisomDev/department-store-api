@@ -26,6 +26,8 @@ public class Employee {
             final Long personId,
             final String registrationNumber,
             final LocalDate hireDate,
+            final LocalDate terminationDate,
+            final String terminationReason,
             final EmployeeRole employeeRole,
             final EmployeeStatus status
     ) {
@@ -34,6 +36,8 @@ public class Employee {
         this.personId = personId;
         this.registrationNumber = registrationNumber;
         this.hireDate = hireDate;
+        this.terminationDate = terminationDate;
+        this.terminationReason = terminationReason;
         this.employeeRole = employeeRole;
         this.status = status;
     }
@@ -83,7 +87,7 @@ public class Employee {
 
         this.terminationDate = terminationDate;
         this.terminationReason = terminationReason;
-        this.status = EmployeeStatus.INACTIVE;
+        this.status = EmployeeStatus.TERMINATED;
     }
 
     public void changeRole(final EmployeeRole employeeRole) {

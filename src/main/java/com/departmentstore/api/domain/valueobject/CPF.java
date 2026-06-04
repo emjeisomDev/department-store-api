@@ -16,10 +16,12 @@ public final class CPF {
         return value;
     }
 
-    public String getFormatted(){
-        return value.replace(
+    public String getFormatted() {
+
+        return value.replaceAll(
                 "(\\d{3})(\\d{3})(\\d{3})(\\d{2})",
-                "$1.$2.$3-$4");
+                "$1.$2.$3-$4"
+        );
     }
 
     private String normalize(final String value) {
