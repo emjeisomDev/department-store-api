@@ -43,8 +43,9 @@ public class LegalPersonEntity {
     @Column(name = "share_capital", precision = 18, scale = 2)
     private BigDecimal shareCapital;
 
+    @Builder.Default
     @Column(name = "employees_quant")
-    private Integer employeesQuant;
+    private Integer employeesQuant = 0;
 
     @OneToMany(mappedBy = "legalPerson", fetch = FetchType.LAZY)
     @ToString.Exclude

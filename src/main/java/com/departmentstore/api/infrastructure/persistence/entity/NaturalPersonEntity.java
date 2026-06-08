@@ -1,6 +1,7 @@
 package com.departmentstore.api.infrastructure.persistence.entity;
 
 import com.departmentstore.api.domain.enums.Gender;
+import com.departmentstore.api.infrastructure.persistence.converter.GenderConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,8 +46,8 @@ public class NaturalPersonEntity {
     @Column(name = "mothers_name", nullable = false, length = 255)
     private String mothersName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false, length = 1)
+    @Convert(converter = GenderConverter.class)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
 }

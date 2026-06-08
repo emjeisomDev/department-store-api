@@ -36,7 +36,7 @@ public class ClientService implements ManageClientUseCase {
                         null,
                         command.personId(),
                         command.clientCode(),
-                        ClientRank.BRONZE,
+                        ClientRank.STANDARD,
                         ClientStatus.ACTIVE
                 );
 
