@@ -11,6 +11,10 @@ import com.departmentstore.api.infrastructure.web.dto.request.UpdateEmployeeRole
 import com.departmentstore.api.infrastructure.web.dto.response.ApiResponseDto;
 import com.departmentstore.api.infrastructure.web.dto.response.EmployeeResponseDto;
 import com.departmentstore.api.infrastructure.web.mapper.EmployeeMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(
+        name = "Funcionários",
+        description = "Operações relacionadas aos funcionários"
+)
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -70,7 +78,11 @@ public class EmployeeController {
         );
     }
 
-
+    @Operation(summary = "Contratar funcionário")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Funcionário criado"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<EmployeeResponseDto> hire(
@@ -87,6 +99,7 @@ public class EmployeeController {
         );
     }
 
+    @Operation(summary = "Desligar funcionário")
     @PatchMapping("/{id}/terminate")
     public ApiResponseDto<Void> terminate(
             @PathVariable final Long id,
@@ -106,6 +119,7 @@ public class EmployeeController {
         );
     }
 
+    @Operation(summary = "Alterar cargo do funcionário")
     @PatchMapping("/{id}/role")
     public ApiResponseDto<Void> updateRole(
             @PathVariable final Long id,

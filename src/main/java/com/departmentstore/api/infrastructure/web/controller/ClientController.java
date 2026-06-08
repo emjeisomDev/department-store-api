@@ -9,6 +9,10 @@ import com.departmentstore.api.infrastructure.web.dto.request.UpdateClientRankRe
 import com.departmentstore.api.infrastructure.web.dto.response.ApiResponseDto;
 import com.departmentstore.api.infrastructure.web.dto.response.ClientResponseDto;
 import com.departmentstore.api.infrastructure.web.mapper.ClientMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(
+        name = "Clientes",
+        description = "Operações relacionadas aos clientes"
+)
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
@@ -71,6 +79,8 @@ public class ClientController {
         );
     }
 
+    @Operation(summary = "Cadastrar cliente")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Cliente cadastrado")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<ClientResponseDto> register(
@@ -87,6 +97,7 @@ public class ClientController {
         );
     }
 
+    @Operation(summary = "Atualizar classificação do cliente")
     @PatchMapping("/{id}/rank")
     public ApiResponseDto<Void> updateRank(
             @PathVariable final Long id,
@@ -101,6 +112,7 @@ public class ClientController {
         );
     }
 
+    @Operation(summary = "Desativar cliente")
     @PatchMapping("/{id}/deactivate")
     public ApiResponseDto<Void> deactivate(@PathVariable final Long id) {
         useCase.deactivate(id);

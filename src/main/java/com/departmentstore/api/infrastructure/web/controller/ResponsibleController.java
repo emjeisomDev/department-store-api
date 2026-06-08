@@ -5,6 +5,10 @@ import com.departmentstore.api.application.port.in.ManageResponsibleUseCase;
 import com.departmentstore.api.domain.entity.LegalPersonResponsible;
 import com.departmentstore.api.infrastructure.web.dto.request.ResponsibleRequestDto;
 import com.departmentstore.api.infrastructure.web.dto.response.ApiResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(
+        name = "Responsáveis",
+        description = "Gerenciamento de responsáveis por pessoa jurídica"
+)
 @RestController
 @RequestMapping("/legal-persons/{legalPersonId}/responsibles")
 public class ResponsibleController {
@@ -22,6 +30,7 @@ public class ResponsibleController {
         this.useCase = useCase;
     }
 
+    @Operation(summary = "Listar responsáveis da pessoa jurídica")
     @GetMapping
     public ApiResponseDto<List<LegalPersonResponsible>> listResponsibles(
             @PathVariable final Long legalPersonId) {
@@ -34,6 +43,8 @@ public class ResponsibleController {
         );
     }
 
+    @Operation(summary = "Adicionar responsável à pessoa jurídica")
+    @ApiResponses({@ApiResponse(responseCode = "201", description = "Responsável vinculado")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<Long> addResponsible(
@@ -58,6 +69,7 @@ public class ResponsibleController {
         );
     }
 
+    @Operation(summary = "Encerrar responsabilidade")
     @DeleteMapping("/{rid}")
     public ApiResponseDto<Void> endResponsibility(@PathVariable final Long rid) {
         useCase.endResponsibility(rid);

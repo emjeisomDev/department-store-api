@@ -17,13 +17,21 @@ import com.departmentstore.api.infrastructure.web.dto.response.LegalPersonRespon
 import com.departmentstore.api.infrastructure.web.dto.response.NaturalPersonResponseDto;
 import com.departmentstore.api.infrastructure.web.mapper.AuditTrailMapper;
 import com.departmentstore.api.infrastructure.web.mapper.PersonMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(
+        name = "Pessoas",
+        description = "Operações relacionadas ao cadastro e gerenciamento de pessoas"
+)
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
@@ -58,6 +66,14 @@ public class PersonController {
         );
     }
 
+
+    @Operation(
+            summary = "Buscar pessoa por ID"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Pessoa encontrada"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
     @GetMapping("/{id}")
     public ApiResponseDto<Person> findById(@PathVariable final Long id) {
 
@@ -81,6 +97,15 @@ public class PersonController {
         );
     }
 
+    @Operation(
+            summary = "Cadastrar Pessoa Física",
+            description = "Cria uma nova pessoa física"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Pessoa física criada"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+            @ApiResponse(responseCode = "409", description = "CPF já cadastrado")
+    })
     @PostMapping("/natural")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<NaturalPersonResponseDto> createNaturalPerson(
@@ -97,6 +122,15 @@ public class PersonController {
         );
     }
 
+    @Operation(
+            summary = "Cadastrar Pessoa Jurídica",
+            description = "Cria uma nova pessoa jurídica"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Pessoa jurídica criada"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+            @ApiResponse(responseCode = "409", description = "CNPJ já cadastrado")
+    })
     @PostMapping("/legal")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<LegalPersonResponseDto> createLegalPerson(
@@ -139,6 +173,13 @@ public class PersonController {
         );
     }
 
+    @Operation(
+            summary = "Excluir pessoa (soft delete)"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Pessoa excluída"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
     @DeleteMapping("/{personId}")
     public ApiResponseDto<Void> softDelete(@PathVariable final Long personId) {
 
